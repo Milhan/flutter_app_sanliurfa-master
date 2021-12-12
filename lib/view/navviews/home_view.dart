@@ -36,11 +36,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   ];
 
   List kategorIsme = [
-    "onerilen-mekan-1.jpg",
-    "onerilen-mekan-2.jpg",
-    "onerilen-mekan-3.jpg",
-    "onerilen-mekan-2.jpg",
-    "onerilen-mekan-3.jpg",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
   ];
 
   @override
@@ -75,58 +75,122 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             ),
           ),
           SizedBox(height: 30),
-          Container(
-            margin: EdgeInsets.only(left: 20, right: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppBaslikText(text: "Kategoriler", size: 20),
-                ApppIcerikText(
-                  text: "Hepsini Göster",
-                  size: 13,
-                  renk: AppColors.textColor2,
-                )
-              ],
-            ),
-          ),
+          kategoriBaslik(),
           SizedBox(height: 10),
-          Container(
-            height: 100,
-            width: double.maxFinite,
-            margin: EdgeInsets.only(left: 20),
-            child: ListView.builder(
-                itemCount: kategoriler.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, index) {
-                  return Container(
-                    margin: EdgeInsets.only(right: 30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                            width: 80,
-                            height: 80,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white,
-                              image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/" + kategoriler[index]),
-                                  fit: BoxFit.cover),
-                            )),
-                        SizedBox(height: 5),
-                        Container(
-                          child: ApppIcerikText(
-                            text: "Kaynak",
-                            size: 12,
-                            renk: AppColors.textColor2,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                }),
-          ),
+          katerigoriIcerik(kategoriler: kategoriler, kategorIsme: kategorIsme),
+        ],
+      ),
+    );
+  }
+}
+
+class katerigoriIcerik extends StatelessWidget {
+  const katerigoriIcerik({
+    Key? key,
+    required this.kategoriler,
+    required this.kategorIsme,
+  }) : super(key: key);
+
+  final List kategoriler;
+  final List kategorIsme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 100,
+      width: double.maxFinite,
+      margin: EdgeInsets.only(left: 20),
+      child: ListView.builder(
+          itemCount: kategoriler.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (_, index) {
+            return Container(
+              margin: EdgeInsets.only(right: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  kategoriIcerikDetay(
+                    kategoriler: kategoriler,
+                    index: index,
+                  ),
+                  SizedBox(height: 5),
+                  kategoriAltBaslik(
+                    kategorIsme: kategorIsme,
+                    index: index,
+                  )
+                ],
+              ),
+            );
+          }),
+    );
+  }
+}
+
+class kategoriAltBaslik extends StatelessWidget {
+  const kategoriAltBaslik({
+    Key? key,
+    required this.kategorIsme,
+    required this.index,
+  }) : super(key: key);
+
+  final List kategorIsme;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ApppIcerikText(
+        text: kategorIsme[index],
+        size: 12,
+        renk: AppColors.textColor2,
+      ),
+    );
+  }
+}
+
+class kategoriIcerikDetay extends StatelessWidget {
+  const kategoriIcerikDetay({
+    Key? key,
+    required this.kategoriler,
+    required this.index,
+  }) : super(key: key);
+
+  final List kategoriler;
+  final int index;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 80,
+        height: 80,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+          image: DecorationImage(
+              image: AssetImage("assets/images/" + kategoriler[index]),
+              fit: BoxFit.cover),
+        ));
+  }
+}
+
+class kategoriBaslik extends StatelessWidget {
+  const kategoriBaslik({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppBaslikText(text: "Kategoriler", size: 20),
+          ApppIcerikText(
+            text: "Hepsini Göster",
+            size: 13,
+            renk: AppColors.textColor2,
+          )
         ],
       ),
     );
